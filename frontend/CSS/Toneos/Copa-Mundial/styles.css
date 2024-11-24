@@ -1,0 +1,77 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: black;
+    color: white;
+    padding: 10px 15px 10px 15px;
+}
+
+.Enlace-portafolio {
+    background-color: black;
+    color: white;
+    justify-content: center;
+    display: flex;
+    padding: 3px 20px 3px 0px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.divisor-portafoli-nav {
+    border: none;
+    height: 1px;
+}
+
+.Logo-Fifa {
+    width: 90px;
+    height: auto;
+    margin-right: 32px;
+    cursor: pointer;
+}
+
+#header-lista li {
+    list-style-type: none;
+    display: inline-block;
+    margin-right: 32px;
+    align-content: center;
+    cursor: pointer;
+}
+
+#header-lista {
+    display: flex;
+}
+
+.header_central_de_partidos {
+    width: 300px;
+    margin-right: 32px;
+}
+
+.Barra_busqueda {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Barra_busqueda input[type="text"] {
+    padding: 8px 25px 8px 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    padding-right: 0;
+}
+
+.Barra_busqueda button {
+    background-color: white;
+    border: none;
+    color: white;
+    width: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+    position: inherit;
+    right: 0;
+    top: 50%;
+    transform: translate(-1%);
+    cursor: pointer;
+}
