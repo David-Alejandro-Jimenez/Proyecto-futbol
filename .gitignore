@@ -1,0 +1,4 @@
+#El archivo .env contiene información sensible.
+/backend/internal/config/.env
+
+#Archivos 
