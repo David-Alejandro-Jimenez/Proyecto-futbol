@@ -12,18 +12,13 @@ var DataBase *sql.DB
 
 func InitDB() error {
 	var err error
-	//err = godotenv.Load("../internal/config/.env")
-	//if err != nil {
-		//log.Fatal("Error al cargar el archivo .env:", err)
-	//}
-
 	var user = viper.GetString("DB_USER")
 	var password = viper.GetString("DB_PASSWORD")
 	var host = viper.GetString("DB_HOST")
 	var port = viper.GetString("DB_PORT")
 	var database = viper.GetString("DB_NAME")
 
-	var dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?allowNativePasswords=true", user, password, host, port, database)
+	var dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", user, password, host, port, database)
 	
 	DataBase, err = sql.Open("mysql", dsn)
 	if err != nil {

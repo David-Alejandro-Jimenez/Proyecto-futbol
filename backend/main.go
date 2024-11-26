@@ -15,8 +15,12 @@ func main() {
 	if errConfig != nil {
 		log.Fatalf("Error al cargar la configuración: %v", errConfig)
 	}
-	//Inicio de base de datos.
-	db.InitDB()
+
+	//Inicio de base de datos
+	var errdb = db.InitDB()
+	if errdb != nil {
+		log.Println("No se conecto a la base de datos")
+	}
 	defer db.DataBase.Close()
 
 	//Rutas

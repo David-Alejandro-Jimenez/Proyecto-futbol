@@ -9,7 +9,7 @@ import (
 
 func ValidateExistingUsers(username string) (bool, error) {
 	var existingUser bool
-	var err = DataBase.QueryRow("SELECT EXISTS(SELECT 1 FROM users WHERE UserName=?)", username).Scan(&existingUser)
+	var err = DataBase.QueryRow("SELECT EXISTS(SELECT 1 FROM user_registration WHERE UserName=?)", username).Scan(&existingUser)
 	
 		if err != nil {
 			log.Printf("Error al consultar si el usuario existe: %v", err)
@@ -24,6 +24,6 @@ func SaveUser(userName, password string) error {
 		return err
 	}
 
-	_, err = DataBase.Exec("INSERT INTO users (username, password) VALUES (?, ?)", userName, hash)
+	_, err = DataBase.Exec("INSERT INTO user_registration (username, password) VALUES (?, ?)", userName, hash)
     return err
 }

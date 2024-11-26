@@ -29,6 +29,7 @@ func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errValidateEntries.Error(), http.StatusBadRequest)
 		return
 	}
+	
 	errValidateEntries = services.ValidatePassword(application.Password)
 	if errValidateEntries != nil {
 		http.Error(w, errValidateEntries.Error(), http.StatusBadRequest)

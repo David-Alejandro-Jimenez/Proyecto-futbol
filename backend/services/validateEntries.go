@@ -12,16 +12,26 @@ const (
 	minPasswordLength = 10
 )
 
+//The Validate UserName function is responsible for validating whether the way the user enters their username is correct
 func ValidateUserName(userName string) error {
-	if len(userName) < minUserNameLength {
-		return fmt.Errorf("no puedes ingresar un nombre que tenga menos de 5 caracteres")
+	if userName == "" {
+		return fmt.Errorf("you cannot enter empty fields")
 	}
+
+	if len(userName) < minUserNameLength {
+		return fmt.Errorf("you cannot enter a name that is less than 5 characters")
+	}
+
 	return nil
 }
 
+//The ValidatePassword function es la responsable de verificar que la contraseña que el usuario introduce es lo más seguro posible
 func ValidatePassword(password string) error  {
+	if password == "" {
+		return fmt.Errorf("you cannot enter empty fields")
+	}
 	if len(password) < minPasswordLength {
-		return fmt.Errorf("no puedes ingresar una contraseña que tenga menos de 10 caracteres")
+		return fmt.Errorf("you cannot enter a password that is less than 10 characters")
 	}
 
 	var hasUppercase bool
@@ -31,7 +41,6 @@ func ValidatePassword(password string) error  {
 		if unicode.IsUpper(char) {
 			hasUppercase = true
 		}
-
 		if unicode.IsDigit(char) {
 			hasDigit = true
 		}
@@ -39,21 +48,21 @@ func ValidatePassword(password string) error  {
 			hasSpecialCharacter = true
 		}
 
-		if hasUppercase && hasDigit && hasSpecialCharacter{
+		if hasUppercase && hasDigit && hasSpecialCharacter {
 			break
 		}
 	}
 
 	if !hasUppercase {
-		return fmt.Errorf("la contraseña debe tener al menos una letra mayuscula")
+		return fmt.Errorf("the password must have at least one uppercase letter")
 	}
 	
 	if !hasDigit {
-		return fmt.Errorf("la contraseña debe tener al menos un numero")
+		return fmt.Errorf("the password must have at least one number")
 	}
 
 	if !hasSpecialCharacter {
-		return fmt.Errorf("la contraseña debe tener algun caracter especial")
+		return fmt.Errorf("the password must have some special character")
 	}
 	return nil
 }
