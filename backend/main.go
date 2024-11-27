@@ -26,6 +26,7 @@ func main() {
 	//Rutas
 	var router = mux.NewRouter()
 	router.HandleFunc("/createAccount", handlers.RegisterNewAccount).Methods("POST")
+	router.HandleFunc("/loginIn", handlers.LoginIn).Methods("POST")
 
 	//Iniciar Servidor
 	var port = ":8080"
