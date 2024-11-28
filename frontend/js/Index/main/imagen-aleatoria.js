@@ -2,6 +2,7 @@ const imagenes = [
     //Cuadrar esto más adelante ya que no es bueno esta ruta absoluta
     'http://127.0.0.1:5500/frontend/Imagenes/messi.png',
     'http://127.0.0.1:5500/frontend/Imagenes/ronaldo.png',
+    'http://127.0.0.1:5500/frontend/Imagenes/Lewandowski.png',
 ];
 
 function cargarImagenAleatoria() {

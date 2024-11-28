@@ -37,8 +37,8 @@ func LoginIn(w http.ResponseWriter, r *http.Request) {
 	}
 	if errValidateExistingUser != nil {
 		log.Printf("Error verificando usuario existente: %v", errValidateExistingUser)
-    	http.Error(w, "Error en el servidor al validar el usuario", http.StatusInternalServerError)
-   		return
+		http.Error(w, "Error en el servidor al validar el usuario", http.StatusInternalServerError)
+		return
 	} 
 	var salt, errSalt = database.RecoverStoredSalt(application.UserName)
 	if errSalt != nil {
