@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta - Página de Fútbol</title>
-    <link rel="stylesheet" href="../CSS/createAccount/styles.css">
+    <title>Iniciar Sesión - Página de Fútbol</title>
+    <link rel="stylesheet" href="../CSS/LoginIn/styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Crea tu cuenta</h1>
-        <form action="/crear-cuenta" method="post">
+        <h1>Iniciar Sesión</h1>
+        <form action="/iniciar-sesion" method="post">
             <div class="form-group">
                 <label for="username">Nombre de Usuario</label>
                 <input type="text" id="username" name="username" placeholder="Tu nombre de usuario" required>
@@ -19,15 +19,11 @@
                 <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
             </div>
             <div class="form-group">
-                <label for="confirm-password">Confirmar Contraseña</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Repite tu contraseña" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Registrarse</button>
+                <button type="submit">Iniciar Sesión</button>
             </div>
         </form>
         <div class="footer">
-            ¿Ya tienes una cuenta? <a href="/iniciar-sesion">Inicia sesión aquí</a>
+            ¿No tienes una cuenta? <a href="/crear-cuenta">Regístrate aquí</a>
         </div>
     </div>
 </body>
