@@ -1,4 +1,4 @@
-package services
+package auth
 
 import (
 	"fmt"
@@ -66,4 +66,3 @@ func ValidatePassword(password string) error  {
 	}
 	return nil
 }
-

@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var DataBase *sql.DB
+var DB *sql.DB
 
 func InitDB() error {
 	var err error
@@ -20,12 +20,12 @@ func InitDB() error {
 
 	var dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", user, password, host, port, database)
 	
-	DataBase, err = sql.Open("mysql", dsn)
+	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		return fmt.Errorf("no se pudo conectar a la base de datos: %w", err)
 	}
 
-	err = DataBase.Ping() 
+	err = DB.Ping() 
 	if err != nil {
         return fmt.Errorf("no se pudo verificar la conexión: %w", err)
     }

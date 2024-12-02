@@ -4,10 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	db "github.com/David-Alejandro-Jimenez/Pagina-futbol/database"
-	"github.com/David-Alejandro-Jimenez/Pagina-futbol/handlers"
 	"github.com/David-Alejandro-Jimenez/Pagina-futbol/internal/config"
-	"github.com/gorilla/mux"
+	"github.com/David-Alejandro-Jimenez/Pagina-futbol/internal/database"
+	"github.com/David-Alejandro-Jimenez/Pagina-futbol/internal/router"
 )
 
 func main() {
@@ -17,16 +16,13 @@ func main() {
 	}
 
 	//Inicio de base de datos
-	var errdb = db.InitDB()
+	var errdb = database.InitDB()
 	if errdb != nil {
 		log.Println("No se conecto a la base de datos")
 	}
-	defer db.DataBase.Close()
+	defer database.DB.Close()
 
-	//Rutas
-	var router = mux.NewRouter()
-	router.HandleFunc("/createAccount", handlers.RegisterNewAccount).Methods("POST")
-	router.HandleFunc("/loginIn", handlers.LoginIn).Methods("POST")
+	var router = router.SetupRoutes()
 
 	//Iniciar Servidor
 	var port = ":8080"
