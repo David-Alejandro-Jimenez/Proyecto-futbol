@@ -12,7 +12,7 @@ const (
 	minPasswordLength = 10
 )
 
-//The Validate UserName function is responsible for validating whether the way the user enters their username is correct
+//The ValidateUserName function is responsible for validating whether the way the user enters their username is correct
 func ValidateUserName(userName string) error {
 	if userName == "" {
 		return fmt.Errorf("you cannot enter empty fields")

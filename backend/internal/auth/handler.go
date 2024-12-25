@@ -2,7 +2,10 @@ package auth
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/David-Alejandro-Jimenez/Pagina-futbol/models"
 	"github.com/David-Alejandro-Jimenez/Pagina-futbol/services"
@@ -20,6 +23,7 @@ func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 	var application models.Account
 	err = json.NewDecoder(r.Body).Decode(&application)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "Solicitud Invalida", http.StatusBadRequest)
 		return
 	}
@@ -36,8 +40,8 @@ func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var exists, errGetUser = GetUser(application.UserName) 
-	if errGetUser != nil {
+	exists, err := GetUser(application.UserName) 
+	if err != nil {
     	http.Error(w, "Error en el servidor al validar el usuario", http.StatusInternalServerError)
    		return
 	}
@@ -57,8 +61,16 @@ func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"message": "Usuario creado exitosamente"})
 }
 
+func LoginInGET(w http.ResponseWriter, r *http.Request) {
+	filePath := "./../frontend/RegistroUsuarios/LoginIn.html"
+	if _, err := os.Stat(filePath); err != nil {
+		http.Error(w, "Archivo no encontrado", http.StatusNotFound)
+		return
+	}
+	http.ServeFile(w, r, filePath)
+}
 
-func LoginIn(w http.ResponseWriter, r *http.Request) {
+func LoginInPOST(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
 		return
@@ -77,50 +89,64 @@ func LoginIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var exists, errGetUser = GetUser(application.UserName)
+	exists, err := GetUser(application.UserName)
+	if err != nil {
+		http.Error(w, "Error en el servidor al validar el usuario", http.StatusInternalServerError)
+		return
+		} 
+		
 	if !exists {
 		http.Error(w, "Usuario o contraseña incorrectos", http.StatusUnauthorized)
 		return
 	}
-	if errGetUser != nil {
-		http.Error(w, "Error en el servidor al validar el usuario", http.StatusInternalServerError)
-		return
-	} 
-
-	var userID, errGetID = GetUserID(application.UserName)
-	if errGetID != nil {
+	
+	userID, err := GetUserID(application.UserName)
+	if err != nil {
 		http.Error(w, "Usuario o contraseña incorrectos", http.StatusUnauthorized)
 		return
 	}
 
-	var salt, errGetSalt = GetSalt(application.UserName)
-	if errGetSalt != nil {
+	salt, err := GetSalt(application.UserName)
+	if err != nil {
 		http.Error(w, "Error en el servidor al recuperar el salt", http.StatusInternalServerError)
 		return
 	}
 	
-	var storeHash, errGetHash =  GetHashPassword(application.UserName)
-	if errGetHash != nil {
+	storeHash, err :=  GetHashPassword(application.UserName)
+	if err != nil {
 		http.Error(w, "Error en el servidor al recuperar el hash", http.StatusInternalServerError)
 		return
 	}
 
 	var passwordWithSalt = append([]byte(application.Password), salt...)
-	var errComparePassword = bcrypt.CompareHashAndPassword([]byte(storeHash), passwordWithSalt)
-	if errComparePassword != nil {
+	err = bcrypt.CompareHashAndPassword([]byte(storeHash), passwordWithSalt)
+	if err != nil {
 		http.Error(w, "Usuario o contraseña incorrectos", http.StatusUnauthorized)
 		return
 	}
 
-	var token, errToken = services.GenerateJWT(userID, application.UserName)
-	if errToken != nil {
+	token, err := services.GenerateJWT(userID, application.UserName)
+	if err != nil {
 		http.Error(w, "Error al generar el token", http.StatusInternalServerError)
 		return
 	}
+
+	cookie := http.Cookie{
+		Name: "token",
+		Value: token,
+		Expires: time.Now().Add(12 * time.Hour),
+		HttpOnly: false,
+		Path: "/",
+		Secure: false,
+		SameSite: http.SameSiteLaxMode,
+	}
+
+	http.SetCookie(w, &cookie) 
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Inicio de sesión exitoso",
 		"token":   token,
+		"redirect": "/home",
 	})
 }
