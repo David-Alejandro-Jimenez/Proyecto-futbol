@@ -61,17 +61,3 @@ func GetSalt(username string) (string, error) {
 
 	return salt, nil
 }
-
-
-func GetUserID(username string) (int, error) {
-	var id int
-	var query = "SELECT id FROM user_registration WHERE UserName= ?"
-	var err = database.DB.QueryRow(query, username).Scan(&id)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return 0, err
-		}
-		return 0, err
-	}
-	return id, nil
-}

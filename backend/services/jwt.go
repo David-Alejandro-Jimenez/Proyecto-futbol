@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/David-Alejandro-Jimenez/Pagina-futbol/models"
@@ -10,9 +11,8 @@ import (
 
 var jwtSecret = []byte(viper.GetString("JWT_SECRET_KEY"))
 
-func GenerateJWT(userID int, userName string) (string, error) {
+func GenerateJWT(userName string) (string, error) {
 	var claims = models.Claims{
-		UserID: userID,
 		UserName: userName,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(time.Now().Add(12 * time.Hour)),
@@ -23,19 +23,22 @@ func GenerateJWT(userID int, userName string) (string, error) {
 	return token.SignedString(jwtSecret)
 }
 
-func ValidateToken(tokenString string) (*models.Claims, error) {
-	var token, err = jwt.ParseWithClaims(tokenString, models.Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return jwtSecret, nil
+func ValidateToken(tokenString string) (error) {
+	var token, err = jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+
+	return jwtSecret, nil
 	})
 
-	if err != nil || !token.Valid {
-		return nil, err
+	if err != nil {
+		return err
+	}
+	
+	if !token.Valid {
+		return err
 	}
 
-	var claims, ok = token.Claims.(*models.Claims)
-	if !ok {
-		return nil, err
-	}
-
-	return claims, nil
+	return nil
 }

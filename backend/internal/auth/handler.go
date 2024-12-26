@@ -16,7 +16,7 @@ var err error
 
 func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
+		http.Error(w, "Disallowed method", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -24,7 +24,7 @@ func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 	err = json.NewDecoder(r.Body).Decode(&application)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Solicitud Invalida", http.StatusBadRequest)
+		http.Error(w, "Invalid Request", http.StatusBadRequest)
 		return
 	}
 
@@ -42,23 +42,23 @@ func RegisterNewAccount(w http.ResponseWriter, r *http.Request) {
 
 	exists, err := GetUser(application.UserName) 
 	if err != nil {
-    	http.Error(w, "Error en el servidor al validar el usuario", http.StatusInternalServerError)
+    	http.Error(w, "Server error while validating user", http.StatusInternalServerError)
    		return
 	}
 
 	if exists {
-		http.Error(w, "El nombre de usuario ya existe", http.StatusConflict)
+		http.Error(w, "Username already exists", http.StatusConflict)
 		return
 	}
 
 	err = SaveUser(application.UserName, application.Password)
 	if err != nil {
-		http.Error(w, "Error al guardar el usuario en la base de datos", http.StatusInternalServerError)
+		http.Error(w, "Error saving user in database", http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(map[string]string{"message": "Usuario creado exitosamente"})
+	json.NewEncoder(w).Encode(map[string]string{"message": "User created successfully"})
 }
 
 func LoginInGET(w http.ResponseWriter, r *http.Request) {
@@ -99,12 +99,6 @@ func LoginInPOST(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Usuario o contraseña incorrectos", http.StatusUnauthorized)
 		return
 	}
-	
-	userID, err := GetUserID(application.UserName)
-	if err != nil {
-		http.Error(w, "Usuario o contraseña incorrectos", http.StatusUnauthorized)
-		return
-	}
 
 	salt, err := GetSalt(application.UserName)
 	if err != nil {
@@ -125,7 +119,7 @@ func LoginInPOST(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := services.GenerateJWT(userID, application.UserName)
+	token, err := services.GenerateJWT(application.UserName)
 	if err != nil {
 		http.Error(w, "Error al generar el token", http.StatusInternalServerError)
 		return

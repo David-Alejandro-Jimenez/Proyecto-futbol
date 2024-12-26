@@ -17,7 +17,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		tokenString := cookie.Value
 		log.Println(tokenString)
-		_, err = services.ValidateToken(tokenString) 
+		err = services.ValidateToken(tokenString) 
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Token inválido o expirado", http.StatusForbidden)

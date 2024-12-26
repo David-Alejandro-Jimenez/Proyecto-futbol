@@ -19,7 +19,7 @@ func HashPassword(password string, salt string) (string, error) {
 func GenerateSalt() (string, error) {
 	var salt = make([]byte, 16)
 	var _, err = rand.Read(salt)
-	if err != nil {
+	if err != nil {	
 		return "", err
 	}
 
