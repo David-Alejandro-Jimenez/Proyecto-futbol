@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Página de Fútbol</title>
+    <link rel="stylesheet" href="../css/components/navigation-Bar.css">
+    <link rel="stylesheet" href="../css/pages/login.css">
+</head>
+<body>
+    <header>
+        <a href=""><p class="Enlace-github-header">Visita mi github</p></a>
+        <hr class="divisor-parrafo-aclarador">
+        <nav class="barra-navegacion">
+            <ul class="lista-categoria">
+                <div>
+                    <img src="./../assets/icons/Fifa-simbolo.png" alt="Logo-de-la-fifa" class="Imagen-Logo-pagina-principal">
+                </div>
+                <li>TORNEOS</li>
+                <li>NOTICIAS</li>
+                <li>JUGADORES</li>
+                <LI>EQUIPOS</LI>
+                <div class="Registro-usuarios">
+                        <a href="./RegistroUsuarios/LoginIn.html"><li>Iniciar sesión</li></a>
+                        <a href="./RegistroUsuarios/CreateAccount.html"><li>Crear cuenta</li></a>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <main class="login-page">
+        <div class="container">
+            <h1>Iniciar Sesión</h1>
+            <form id="login">
+            <div class="form-group">
+                <label for="UserName">Nombre de Usuario</label>
+                <input type="text" id="UserName" name="username" placeholder="Tu nombre de usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="Password">Contraseña</label>
+                <input type="password" id="Password" name="password" placeholder="Tu contraseña" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Iniciar Sesión</button>
+            </div>
+        </form>
+        <div class="footer">
+            ¿No tienes una cuenta? <a href="/crear-cuenta">Regístrate aquí</a>
+        </div>
+    </div>
+</main>
+</body>
+<script src="../js/pages/login.js"></script>
+</html>

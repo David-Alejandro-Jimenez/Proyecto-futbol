@@ -1,14 +1,16 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('../../Imagenes/Background-LoginIn.png') no-repeat center center/cover;
-    color: #fff;
+    background: url(./../../assets/images/banners/Background-login.png) no-repeat /*center center/cover*/;
+    background-blend-mode: multiply;
+    background-size: cover;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-page {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
 }
 
 .container {
