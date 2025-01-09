@@ -1,10 +1,11 @@
-package auth
+package repository
 
 import (
 	"database/sql"
 	"fmt"
 
-	"github.com/David-Alejandro-Jimenez/Pagina-futbol/internal/database"
+	"github.com/David-Alejandro-Jimenez/Pagina-futbol/internal/repository/database"
+	"github.com/David-Alejandro-Jimenez/Pagina-futbol/pkg/helpers"
 )
 
 func GetUser(username string) (bool, error) {
@@ -32,11 +33,11 @@ func GetHashPassword(username string) (string, error) {
 }	
 
 func SaveUser(userName, password string) error {
-	var salt, errSalt = GenerateSalt()
+	var salt, errSalt = helpers.GenerateSalt()
 	if errSalt != nil {
 		return errSalt
 	}
-	var hash, err = HashPassword(password, salt)
+	var hash, err = helpers.HashPassword(password, salt)
 	if err != nil {
 		return err
 	}

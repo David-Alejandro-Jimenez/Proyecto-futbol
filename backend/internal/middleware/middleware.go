@@ -1,10 +1,9 @@
-package auth
+package middleware
 
 import (
-	"log"
 	"net/http"
 
-	"github.com/David-Alejandro-Jimenez/Pagina-futbol/services"
+	"github.com/David-Alejandro-Jimenez/Pagina-futbol/internal/services"
 )
 
 func AuthMiddleware(next http.Handler) http.Handler {
@@ -16,10 +15,8 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		tokenString := cookie.Value
-		log.Println(tokenString)
 		err = services.ValidateToken(tokenString) 
 		if err != nil {
-			log.Println(err)
 			http.Error(w, "Token inválido o expirado", http.StatusForbidden)
 			return
 		}

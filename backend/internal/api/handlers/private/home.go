@@ -1,4 +1,4 @@
-package protected
+package private
 
 import (
 	"fmt"
@@ -12,12 +12,6 @@ import (
 var jwtSecret = []byte(viper.GetString("JWT_SECRET_KEY"))
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Entrando al HomeHandler")
-	for name, values := range r.Header {
-		fmt.Printf("%s: %s\n", name, values)
-	}
-	
-
 	cookie, err := r.Cookie("token")
 	if err != nil {
 		http.Error(w, "cookie not found or invalid", http.StatusUnauthorized)
@@ -43,6 +37,5 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid claims structure", http.StatusUnauthorized)
     	return
 	}
-
 	w.Write([]byte(fmt.Sprintf("¡Hola usuario %v! B", claims.UserName)))
 }
